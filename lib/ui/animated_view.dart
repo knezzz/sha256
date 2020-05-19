@@ -1,6 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:sha256/ui/pages/input_value.dart';
 
 import '../hash/sha256.dart';
 
@@ -61,89 +60,18 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
           AnimatedBuilder(
             animation: _pageController,
             builder: (BuildContext context, Widget widget) {
-              return Stack(
-                children: <Widget>[
-                  Positioned(
-                    top: MediaQuery.of(context).size.height * 0.5,
-                    width: MediaQuery.of(context).size.width,
-                    height: 80.0,
-                    child: Opacity(
-                      opacity: 1 - min(1.0, _pageController.page.ceilToDouble()),
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                        child: _getInput(0),
-                      ),
-                    ),
-                  ),
-                  Opacity(
-                    opacity: min(1.0, _pageController.page.ceilToDouble()),
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Center(
-                        child: Stack(
-                          children: _controller.text.split('').mapIndexed((String s, int index) {
-                            return Positioned(
-                              top: MediaQuery.of(context).size.height * (0.5 - (_pageController.page * 0.35)) +
-                                  (index * 60.0 * min(1.0, _pageController.page)),
-                              left: index * 11.5 - (index * 11.5 * min(1.0, _pageController.page)),
-                              width: MediaQuery.of(context).size.width,
-                              height: 80.0,
-                              child: Container(
-                                child: Stack(
-                                  alignment: Alignment.centerLeft,
-                                  children: <Widget>[
-                                    Text(
-                                      s,
-                                      style: Theme.of(context).textTheme.headline5,
-                                    ),
-                                    Positioned(
-                                      left: MediaQuery.of(context).size.width *
-                                          0.25 *
-                                          (max(0.0, (min(1.0, _pageController.page) - 0.6)) / 0.4),
-                                      child: Opacity(
-                                        opacity: max(0.0, (min(1.0, _pageController.page) - 0.6)) / 0.4,
-                                        child: Text(
-                                          s.codeUnits.first.toString(),
-                                          style: Theme.of(context).textTheme.subtitle1,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: MediaQuery.of(context).size.width *
-                                          0.65 *
-                                          (max(0.0, (min(1.0, _pageController.page) - 0.6)) / 0.4),
-                                      child: Opacity(
-                                        opacity: max(0.0, (min(1.0, _pageController.page) - 0.6)) / 0.4,
-                                        child: Text(
-                                          s.codeUnits.first.toRadixString(2),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .headline5
-                                              .copyWith(fontWeight: FontWeight.w900),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              );
+              double _value = _pageController?.page ?? 0.0;
+
+              if (_value <= 1.0) {
+                return InputValuePage(_value, _controller);
+              } else {
+                return Container(
+                  child: _getInput(_value.round()),
+                );
+              }
             },
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _sha256 = Sha256(_controller.text);
-          });
-        },
       ),
     );
   }
@@ -183,12 +111,12 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                _sha256.shaModel.bytes[index].toString(),
+                _sha256.shaModel.input.codeUnitAt(index).toString(),
                 style: Theme.of(context).textTheme.caption,
                 textAlign: TextAlign.center,
               ),
               Text(
-                _sha256.shaModel.message[index].padLeft(8, '0'),
+                _sha256.shaModel.input.codeUnitAt(index).toRadixString(2),
                 style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),
@@ -263,12 +191,5 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
     }
 
     return SizedBox.shrink();
-  }
-}
-
-extension IndexedIterable<E> on Iterable<E> {
-  Iterable<T> mapIndexed<T>(T f(E e, int i)) {
-    var i = 0;
-    return this.map((e) => f(e, i++));
   }
 }

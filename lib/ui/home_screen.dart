@@ -95,17 +95,17 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Text(
-                _sha256.shaModel.input.split('')[index],
+                _sha256.shaModel.input[index],
                 style: Theme.of(context).textTheme.headline5,
                 textAlign: TextAlign.center,
               ),
               Text(
-                _sha256.shaModel.bytes[index].toString(),
+                _sha256.shaModel.input.codeUnitAt(index).toString(),
                 style: Theme.of(context).textTheme.caption,
                 textAlign: TextAlign.center,
               ),
               Text(
-                _sha256.shaModel.message[index].padLeft(8, '0'),
+                _sha256.shaModel.input.codeUnitAt(index).toString().padLeft(8, '0'),
                 style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),

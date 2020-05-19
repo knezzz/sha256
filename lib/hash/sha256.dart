@@ -12,12 +12,6 @@ class Sha256 {
     print('Hashing message: $message');
     shaModel = shaModel.copyWith(input: message);
 
-    print('Message to bytes:');
-    shaModel = shaModel.copyWith(bytes: toBytes(message));
-
-    print('Byte array to binary:');
-    shaModel = shaModel.copyWith(message: bytesListToBinary());
-
     print('Fold binary array');
     shaModel = shaModel.copyWith(foldedMessage: foldBinaryArray());
 
@@ -39,24 +33,11 @@ class Sha256 {
     getTemporaryWordSecond(0);
   }
 
-  List<int> toBytes(String message) {
-    final List<int> _bytes = message.codeUnits;
-
-    print('Bytes: $_bytes');
-    return _bytes;
-  }
-
-  List<String> bytesListToBinary() {
-    final List<String> _message = shaModel.bytes.map((int i) => i.toRadixString(2)).toList();
-
-    print('Binary: $_message');
-
-    return _message;
-  }
-
   String foldBinaryArray() {
-    final String _foldedMessage =
-        shaModel.message.fold(StringBuffer(), (StringBuffer sb, String s) => sb..write(s.padLeft(8, '0'))).toString();
+    final String _foldedMessage = shaModel.input.codeUnits
+        .map((int e) => e.toRadixString(2))
+        .fold(StringBuffer(), (StringBuffer sb, String s) => sb..write(s.padLeft(8, '0')))
+        .toString();
 
     print('Folded: $_foldedMessage');
 
