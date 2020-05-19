@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sha256/ui/home_screen.dart';
+import 'package:sha256/ui/animated_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: GoogleFonts.firaCodeTextTheme()),
-      home: HomeScreen(),
+      home: AnimatedScreen(),
     );
   }
 }

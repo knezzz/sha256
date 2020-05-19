@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sha256/hash/sha256.dart';
+
+import '../hash/sha256.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key}) : super(key: key);
