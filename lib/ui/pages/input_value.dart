@@ -84,7 +84,7 @@ class InputValuePage extends StatelessWidget {
                               child: Opacity(
                                 opacity: max(0.0, (min(1.0, _value) - 0.6)) / 0.4,
                                 child: Text(
-                                  s.codeUnits.first.toRadixString(2),
+                                  s.codeUnits.first.toRadixString(2).padLeft(8, '0'),
                                   style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900),
                                 ),
                               ),

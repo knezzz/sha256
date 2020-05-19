@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sha256/ui/pages/add_padding_page.dart';
+import 'package:sha256/ui/pages/create_block.dart';
+import 'package:sha256/ui/pages/create_message_for_block.dart';
 import 'package:sha256/ui/pages/fold_binary_page.dart';
 import 'package:sha256/ui/pages/input_value.dart';
 
@@ -31,6 +34,10 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
     super.initState();
     _controller = TextEditingController(text: 'abc');
     _pageController = PageController(initialPage: 0);
+
+    _controller.addListener(() {
+      _sha256 = Sha256(_controller.text);
+    });
   }
 
   @override
@@ -67,9 +74,15 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
                 return InputValuePage(_value, _controller);
               } else if (_value <= 2.0) {
                 return FoldBinaryPage(_value - 1, _controller.text);
+              } else if (_value <= 3.0) {
+                return AddPaddingPage(_value - 2, _sha256.shaModel.paddedMessage, _controller.text);
+              } else if (_value <= 4.0) {
+                return CreateBlockPage(_value - 3, _sha256.shaModel.messageBlocs, _controller.text);
+              } else if (_value <= 5.0) {
+                return CreateMessageForBlock(_value - 4, _sha256.shaModel.messageSchedule, _controller.text);
               } else {
                 return Container(
-                  child: _getInput(_value.round()),
+                  child: _getInput(_value.ceil()),
                 );
               }
             },

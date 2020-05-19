@@ -23,7 +23,10 @@ class FoldBinaryPage extends StatelessWidget {
               child: Stack(
                 children: input.split('').mapIndexed((String s, int index) {
                   return Positioned(
-                    top: MediaQuery.of(context).size.height * 0.15 + (index * (60.0 - (36 * _value))),
+                    top: MediaQuery.of(context).size.height * 0.15 +
+                        (index * 60.0) -
+                        _value * (60.0 * index) +
+                        _value * (index ~/ 4) * 20.0,
                     left: index * 11.5 - (index * 11.5),
                     width: MediaQuery.of(context).size.width,
                     height: 80.0,
@@ -54,13 +57,14 @@ class FoldBinaryPage extends StatelessWidget {
                             ),
                           ),
                           Positioned(
-                            left: MediaQuery.of(context).size.width * 0.6 -
-                                (MediaQuery.of(context).size.width * 0.35 * _value),
+                            left: MediaQuery.of(context).size.width * 0.6 * (1 - _value) -
+                                ((1 * (index % 4)) * (MediaQuery.of(context).size.width * 0.224 * -_value)) -
+                                (_value * MediaQuery.of(context).size.width * 0.05),
                             width: MediaQuery.of(context).size.width * 0.35,
                             child: Container(
                               alignment: Alignment.centerRight,
                               child: Text(
-                                s.codeUnits.first.toRadixString(2),
+                                s.codeUnits.first.toRadixString(2).padLeft(8, '0'),
                                 style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900),
                               ),
                             ),
