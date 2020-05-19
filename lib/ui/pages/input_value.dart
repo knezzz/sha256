@@ -30,6 +30,7 @@ class InputValuePage extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
               child: EditableText(
                 cursorWidth: 16.0,
+                paintCursorAboveText: true,
                 scrollPhysics: NeverScrollableScrollPhysics(),
                 focusNode: _node,
                 controller: _controller,

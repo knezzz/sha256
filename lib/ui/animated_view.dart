@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sha256/ui/pages/fold_binary_page.dart';
 import 'package:sha256/ui/pages/input_value.dart';
 
 import '../hash/sha256.dart';
@@ -64,6 +65,8 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
 
               if (_value <= 1.0) {
                 return InputValuePage(_value, _controller);
+              } else if (_value <= 2.0) {
+                return FoldBinaryPage(_value - 1, _controller.text);
               } else {
                 return Container(
                   child: _getInput(_value.round()),
