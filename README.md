@@ -1,6 +1,6 @@
 # sha256
 
-A new Flutter project.
+Animate how SHA256 works
 
 ## Getting Started
 
