@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
+import '../../extensions.dart';
+
 class AddPaddingPage extends StatelessWidget {
   AddPaddingPage(this._value, this.input, this.initialValue, {Key key}) : super(key: key);
 
@@ -16,8 +18,11 @@ class AddPaddingPage extends StatelessWidget {
 
     print('k is $k');
 
-    final int _foldAt = (MediaQuery.of(context).size.width / 96.0).floor();
-    final double _difference = (MediaQuery.of(context).size.width - (96.0 * _foldAt));
+    Size _size = textSize('00000000',
+        Theme.of(context).textTheme.headline5.copyWith(fontSize: 24.0, height: 1.0, fontWeight: FontWeight.w900));
+    print(_size);
+
+    final double _foldAt = (MediaQuery.of(context).size.width / _size.width).ceilToDouble();
 
     return Opacity(
       opacity: min(1.0, _value.ceilToDouble()),
@@ -25,8 +30,8 @@ class AddPaddingPage extends StatelessWidget {
         children: <Widget>[
           Positioned(
             top: MediaQuery.of(context).size.height * 0.2 + 1.5,
-            left: _difference * 2 + 3.0,
-            width: (_foldAt - 1) * 93.0,
+            left: _size.width * 0.2,
+            width: _size.width * _foldAt * MediaQuery.of(context).textScaleFactor,
             child: Container(
               alignment: Alignment.topCenter,
               child: DefaultTextStyle(

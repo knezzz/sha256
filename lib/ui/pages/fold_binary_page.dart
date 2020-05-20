@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -14,19 +15,21 @@ class FoldBinaryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     print('Value:${_value.ceilToDouble()}');
 
+    Size _size =
+        textSize('00000000', Theme.of(context).textTheme.headline5.copyWith(height: .84, fontWeight: FontWeight.w900));
+    print(_size);
+
     return Opacity(
       opacity: min(1.0, _value.ceilToDouble()),
       child: Stack(
         children: input.split('').mapIndexed((String s, int index) {
-          final int _foldAt = (MediaQuery.of(context).size.width / 96.0).floor();
-          final double _difference = (MediaQuery.of(context).size.width - (96.0 * _foldAt));
+          final int _foldAt = (MediaQuery.of(context).size.width / _size.width).round();
 
           return Positioned(
             top: MediaQuery.of(context).size.height * 0.2 +
                 (index * 60.0) -
                 _value * (60.0 * index) +
-                _value * (index ~/ (_foldAt - 1)) * 20.0,
-            left: index * 11.5 - (index * 11.5),
+                _value * (index ~/ _foldAt) * _size.height,
             width: MediaQuery.of(context).size.width,
             child: Container(
               height: 80.0 - (_value * 60.0),
@@ -57,9 +60,9 @@ class FoldBinaryPage extends StatelessWidget {
                   ),
                   Positioned(
                     left: MediaQuery.of(context).size.width * 0.6 * (1 - _value) -
-                        ((1 * (index % (_foldAt - 1))) * (92.0 * -_value)) +
-                        (_value * _difference * 2),
-                    width: map(_value, 0, 1, MediaQuery.of(context).size.width * 0.35, 96.0),
+                        ((1 * (index % _foldAt)) * (_size.width - 0.75) * -_value) *
+                            MediaQuery.of(context).textScaleFactor,
+                    width: map(_value, 0, 1, MediaQuery.of(context).size.width * 0.35, _size.width),
                     child: Container(
                       alignment: Alignment.centerRight,
                       child: Text(
@@ -77,6 +80,3 @@ class FoldBinaryPage extends StatelessWidget {
     );
   }
 }
-
-num map(num value, [num iStart = 0, num iEnd = pi * 2, num oStart = 0, num oEnd = 1.0]) =>
-    ((oEnd - oStart) / (iEnd - iStart)) * (value - iStart) + oStart;

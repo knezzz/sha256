@@ -12,13 +12,14 @@ class CreateBlockPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    print('Value:${_value.ceilToDouble()}');
+    final int _foldAt = 4;
 
-    final int _foldAt = 8;
-    final double _difference = (MediaQuery.of(context).size.width - (27.0 * _foldAt));
+    Size _sizeBig = textSize('00000000',
+        Theme.of(context).textTheme.headline5.copyWith(fontSize: 24.0, height: 1.0, fontWeight: FontWeight.w900));
+    Size _sizeSmall = textSize('00000000',
+        Theme.of(context).textTheme.headline5.copyWith(fontSize: 12.0, height: 1.0, fontWeight: FontWeight.w900));
 
-    final int _originalFoldAt = (MediaQuery.of(context).size.width / 96.0).floor();
-    final double _originalDifference = (MediaQuery.of(context).size.width - (96.0 * _originalFoldAt));
+    final int _originalFoldAt = (MediaQuery.of(context).size.width / _sizeBig.width).ceil();
 
     return Opacity(
       opacity: min(1.0, _value.ceilToDouble()),
@@ -26,8 +27,10 @@ class CreateBlockPage extends StatelessWidget {
         children: input.mapIndexed((String e, int index) {
           return Positioned(
             top: MediaQuery.of(context).size.height * 0.2 + 1.5,
-            left: _originalDifference * 2 + 3.0 - (_value * _originalDifference),
-            width: (map(_value, 1, 0, _foldAt, _originalFoldAt) - 1) * map(_value, 1, 0, 27.0, 93.0),
+            left: _sizeBig.width * 0.2,
+            width: (_sizeSmall.width + ((1 - _value) * (_sizeBig.width - _sizeSmall.width))) *
+                map(_value, 1, 0, _foldAt, _originalFoldAt) *
+                MediaQuery.of(context).textScaleFactor,
             child: Container(
               alignment: Alignment.centerRight,
               child: DefaultTextStyle(
