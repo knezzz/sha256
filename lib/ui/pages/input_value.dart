@@ -48,8 +48,8 @@ class InputValuePage extends StatelessWidget {
               child: Stack(
                 children: _controller.text.split('').mapIndexed((String s, int index) {
                   return Positioned(
-                    top: MediaQuery.of(context).size.height * (0.5 - (_value * 0.35)) +
-                        (index * 60.0 * min(1.0, _value)),
+                    top:
+                        MediaQuery.of(context).size.height * (0.5 - (_value * 0.3)) + (index * 60.0 * min(1.0, _value)),
                     left: index * 11.5 - (index * 11.5 * min(1.0, _value)),
                     width: MediaQuery.of(context).size.width,
                     height: 80.0,

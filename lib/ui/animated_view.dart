@@ -82,7 +82,7 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
                 return CreateMessageForBlock(_value - 4, _sha256.shaModel.messageSchedule, _controller.text);
               } else {
                 return Container(
-                  child: _getInput(_value.ceil()),
+                  child: SizedBox.shrink(),
                 );
               }
             },
@@ -90,122 +90,5 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
         ],
       ),
     );
-  }
-
-  Widget _inputText(String value) {
-    return Text(
-      value,
-      style: Theme.of(context).textTheme.subtitle1,
-      textAlign: TextAlign.center,
-    );
-  }
-
-  Widget _getInput(int index) {
-    if (index == 0) {
-      return TextField(
-        controller: _controller,
-        style: Theme.of(context).textTheme.headline5,
-        decoration: InputDecoration(
-          labelText: 'Value',
-        ),
-      );
-    }
-
-    if (index == 1) {
-      return ListView.separated(
-        itemCount: _sha256.shaModel.input.length,
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider();
-        },
-        itemBuilder: (BuildContext context, int index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text(
-                _sha256.shaModel.input.split('')[index],
-                style: Theme.of(context).textTheme.headline5,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                _sha256.shaModel.input.codeUnitAt(index).toString(),
-                style: Theme.of(context).textTheme.caption,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                _sha256.shaModel.input.codeUnitAt(index).toRadixString(2),
-                style: Theme.of(context).textTheme.headline6,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          );
-        },
-      );
-    }
-
-    if (index == 2) {
-      return _inputText(_sha256.shaModel.foldedMessage.toString());
-    }
-
-    if (index == 3) {
-      return _inputText(_sha256.shaModel.paddedMessage.toString());
-    }
-
-    if (index == 4) {
-      return ListView.separated(
-        itemCount: _sha256.shaModel.messageBlocs.length,
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider();
-        },
-        itemBuilder: (BuildContext context, int index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text('[${index}${']'}'),
-              Flexible(child: Text('[${_sha256.shaModel.messageBlocs[index].padLeft(32, '0')}]')),
-            ],
-          );
-        },
-      );
-    }
-
-    if (index == 5) {
-      return ListView.separated(
-        itemCount: _sha256.shaModel.messageSchedule.length,
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider();
-        },
-        itemBuilder: (BuildContext context, int index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text('W$index'),
-              Flexible(child: Text('${_sha256.shaModel.messageSchedule[index].toRadixString(2).padLeft(32, '0')}')),
-            ],
-          );
-        },
-      );
-    }
-
-    if (index == 6) {
-      return ListView.separated(
-        itemCount: _sha256.shaModel.hashValue.initialHashValue.length,
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider();
-        },
-        itemBuilder: (BuildContext context, int index) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text('${['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'][index]} ='),
-              Flexible(
-                  child:
-                      Text('${_sha256.shaModel.hashValue.initialHashValue[index].toRadixString(2).padLeft(32, '0')}')),
-            ],
-          );
-        },
-      );
-    }
-
-    return SizedBox.shrink();
   }
 }
