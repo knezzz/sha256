@@ -16,11 +16,8 @@ class AddPaddingPage extends StatelessWidget {
     final int size = initialValue.length * 8;
     final int k = (448 - size - 1) % 512;
 
-    print('k is $k');
-
     Size _size = textSize('00000000',
         Theme.of(context).textTheme.headline5.copyWith(fontSize: 24.0, height: 1.0, fontWeight: FontWeight.w900));
-    print(_size);
 
     final double _foldAt = (MediaQuery.of(context).size.width / _size.width).ceilToDouble();
 
@@ -33,7 +30,7 @@ class AddPaddingPage extends StatelessWidget {
             left: _size.width * 0.2,
             width: _size.width * _foldAt * MediaQuery.of(context).textScaleFactor,
             child: Container(
-              alignment: Alignment.topCenter,
+              alignment: Alignment.topLeft,
               child: DefaultTextStyle(
                 style: Theme.of(context)
                     .textTheme

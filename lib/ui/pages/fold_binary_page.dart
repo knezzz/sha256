@@ -13,11 +13,8 @@ class FoldBinaryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('Value:${_value.ceilToDouble()}');
-
     Size _size =
         textSize('00000000', Theme.of(context).textTheme.headline5.copyWith(height: .84, fontWeight: FontWeight.w900));
-    print(_size);
 
     return Opacity(
       opacity: min(1.0, _value.ceilToDouble()),
@@ -32,7 +29,7 @@ class FoldBinaryPage extends StatelessWidget {
                 _value * (index ~/ _foldAt) * _size.height,
             width: MediaQuery.of(context).size.width,
             child: Container(
-              height: 80.0 - (_value * 60.0),
+              height: 80.0 - (_value * (80.0 - _size.height)),
               child: Stack(
                 alignment: Alignment.centerLeft,
                 children: <Widget>[
