@@ -51,58 +51,115 @@ class InputValuePage extends StatelessWidget {
           child: Container(
             child: Center(
               child: Stack(
-                children: _controller.text.split('').mapIndexed((String s, int index) {
-                  return Positioned(
-                    top:
-                        MediaQuery.of(context).size.height * (0.5 - (_value * 0.3)) + (index * 60.0 * min(1.0, _value)),
-                    left: index * _oneCharSize.width - (index * _oneCharSize.width * min(1.0, _value)),
-                    width: MediaQuery.of(context).size.width,
-                    height: 80.0,
-                    child: Container(
-                      child: Stack(
-                        alignment: Alignment.centerLeft,
-                        children: <Widget>[
-                          Positioned(
-                            left: MediaQuery.of(context).size.width * 0.05,
-                            child: Text(
-                              s,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline5
-                                  .copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                children: <Widget>[
+                  ..._controller.text.split('').mapIndexed((String s, int index) {
+                    return Positioned(
+                      top: MediaQuery.of(context).size.height * (0.5 - (_value * 0.3)) +
+                          (index * 60.0 * min(1.0, _value)),
+                      left: index * _oneCharSize.width - (index * _oneCharSize.width * min(1.0, _value)),
+                      width: MediaQuery.of(context).size.width,
+                      height: 80.0,
+                      child: Container(
+                        child: Stack(
+                          alignment: Alignment.centerLeft,
+                          children: <Widget>[
+                            Positioned(
+                              left: MediaQuery.of(context).size.width * 0.05,
+                              child: Text(
+                                s,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    .copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                              ),
                             ),
-                          ),
-                          Positioned(
-                            left: MediaQuery.of(context).size.width * 0.3 * (max(0.0, (min(1.0, _value) - 0.6)) / 0.4),
-                            child: Container(
-                              child: Opacity(
-                                opacity: max(0.0, (min(1.0, _value) - 0.6)) / 0.4,
-                                child: Text(
-                                  s.codeUnits.first.toString(),
-                                  style: Theme.of(context).textTheme.subtitle1,
+                            Positioned(
+                              left:
+                                  MediaQuery.of(context).size.width * 0.3 * (max(0.0, (min(1.0, _value) - 0.6)) / 0.4),
+                              child: Container(
+                                child: Opacity(
+                                  opacity: max(0.0, (min(1.0, _value) - 0.6)) / 0.4,
+                                  child: Text(
+                                    s.codeUnits.first.toString(),
+                                    style: Theme.of(context).textTheme.headline5.copyWith(
+                                          height: 1.05,
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            left: MediaQuery.of(context).size.width * 0.6 * (max(0.0, (min(1.0, _value) - 0.6)) / 0.4),
-                            width: MediaQuery.of(context).size.width * 0.35,
-                            child: Container(
-                              alignment: Alignment.centerRight,
-                              child: Opacity(
-                                opacity: max(0.0, (min(1.0, _value) - 0.6)) / 0.4,
+                            Positioned(
+                              left:
+                                  MediaQuery.of(context).size.width * 0.6 * (max(0.0, (min(1.0, _value) - 0.6)) / 0.4),
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              child: Container(
+                                alignment: Alignment.centerRight,
+                                child: Opacity(
+                                  opacity: max(0.0, (min(1.0, _value) - 0.6)) / 0.4,
+                                  child: Text(
+                                    s.codeUnits.first.toRadixString(2).padLeft(8, '0'),
+                                    style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                  Positioned(
+                    top: MediaQuery.of(context).size.height * (0.5 - (_value * 0.3)) - 60.0,
+                    width: MediaQuery.of(context).size.width,
+                    height: 80.0,
+                    child: Opacity(
+                      opacity: max(0.0, (min(1.0, _value) - 0.8)) / 0.2,
+                      child: Container(
+                        child: Stack(
+                          alignment: Alignment.centerLeft,
+                          children: <Widget>[
+                            Positioned(
+                              left: MediaQuery.of(context).size.width * 0.05,
+                              child: Text(
+                                'Character',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    .copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                              ),
+                            ),
+                            Positioned(
+                              left:
+                                  MediaQuery.of(context).size.width * 0.3 * (max(0.0, (min(1.0, _value) - 0.6)) / 0.4),
+                              child: Container(
                                 child: Text(
-                                  s.codeUnits.first.toRadixString(2).padLeft(8, '0'),
+                                  'ASCII code',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5
+                                      .copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left:
+                                  MediaQuery.of(context).size.width * 0.6 * (max(0.0, (min(1.0, _value) - 0.6)) / 0.4),
+                              width: MediaQuery.of(context).size.width * 0.35,
+                              child: Container(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  'Binary',
                                   style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  );
-                }).toList(),
+                  )
+                ],
               ),
             ),
           ),
