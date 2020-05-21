@@ -32,7 +32,7 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: 'abc');
+    _controller = TextEditingController();
     _pageController = PageController(initialPage: 0);
 
     _controller.addListener(() {
@@ -85,6 +85,21 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
                   child: SizedBox.shrink(),
                 );
               }
+            },
+          ),
+        ],
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          FloatingActionButton(
+            onPressed: () {
+              _pageController.previousPage(duration: Duration(seconds: 2), curve: Curves.easeInOut);
+            },
+          ),
+          FloatingActionButton(
+            onPressed: () {
+              _pageController.nextPage(duration: Duration(seconds: 2), curve: Curves.easeInOut);
             },
           ),
         ],

@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import '../../extensions.dart';
+import '../../utils/utils.dart';
 
 class InputValuePage extends StatelessWidget {
   InputValuePage(this._value, this._controller, {Key key}) : super(key: key);
@@ -16,6 +16,9 @@ class InputValuePage extends StatelessWidget {
     if (_value == 0.0) {
       _node.requestFocus();
     }
+
+    Size _oneCharSize =
+        textSize('0', Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900)) * 0.95;
 
     return Stack(
       children: <Widget>[
@@ -33,8 +36,10 @@ class InputValuePage extends StatelessWidget {
                 paintCursorAboveText: true,
                 scrollPhysics: NeverScrollableScrollPhysics(),
                 focusNode: _node,
+                cursorOpacityAnimates: true,
+                textScaleFactor: MediaQuery.of(context).textScaleFactor,
                 controller: _controller,
-                style: Theme.of(context).textTheme.headline5,
+                style: Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
                 cursorColor: Theme.of(context).cursorColor,
                 backgroundCursorColor: Theme.of(context).accentColor,
               ),
@@ -50,7 +55,7 @@ class InputValuePage extends StatelessWidget {
                   return Positioned(
                     top:
                         MediaQuery.of(context).size.height * (0.5 - (_value * 0.3)) + (index * 60.0 * min(1.0, _value)),
-                    left: index * 11.5 - (index * 11.5 * min(1.0, _value)),
+                    left: index * _oneCharSize.width - (index * _oneCharSize.width * min(1.0, _value)),
                     width: MediaQuery.of(context).size.width,
                     height: 80.0,
                     child: Container(
@@ -61,7 +66,10 @@ class InputValuePage extends StatelessWidget {
                             left: MediaQuery.of(context).size.width * 0.05,
                             child: Text(
                               s,
-                              style: Theme.of(context).textTheme.headline5,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5
+                                  .copyWith(height: 1.05, fontWeight: FontWeight.w900),
                             ),
                           ),
                           Positioned(

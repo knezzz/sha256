@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../extensions.dart';
+import '../../utils/utils.dart';
 
 class FoldBinaryPage extends StatelessWidget {
   FoldBinaryPage(this._value, this.input, {Key key}) : super(key: key);
@@ -14,7 +14,7 @@ class FoldBinaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size _size =
-        textSize('00000000', Theme.of(context).textTheme.headline5.copyWith(height: .84, fontWeight: FontWeight.w900));
+        textSize('00000000', Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900));
 
     return Opacity(
       opacity: min(1.0, _value.ceilToDouble()),
@@ -39,7 +39,8 @@ class FoldBinaryPage extends StatelessWidget {
                       opacity: 1 - max(0.0, (min(1.0, _value * 3))),
                       child: Text(
                         s,
-                        style: Theme.of(context).textTheme.headline5,
+                        style:
+                            Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
                       ),
                     ),
                   ),
@@ -56,15 +57,16 @@ class FoldBinaryPage extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    left: MediaQuery.of(context).size.width * 0.6 * (1 - _value) -
-                        ((1 * (index % _foldAt)) * (_size.width - 0.75) * -_value) *
-                            MediaQuery.of(context).textScaleFactor,
+                    left: MediaQuery.of(context).size.width * 0.6 * (1 - _value) +
+                        ((index % _foldAt) * ((_size.width - 0.75) * MediaQuery.of(context).textScaleFactor) * _value) +
+                        _size.width * 0.2 * _value,
                     width: map(_value, 0, 1, MediaQuery.of(context).size.width * 0.35, _size.width),
                     child: Container(
-                      alignment: Alignment.centerRight,
+                      alignment: Alignment(1 - _value * 2, 0.0),
                       child: Text(
                         s.codeUnits.first.toRadixString(2).padLeft(8, '0'),
-                        style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900),
+                        style:
+                            Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
                       ),
                     ),
                   ),
