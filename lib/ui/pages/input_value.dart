@@ -81,10 +81,10 @@ class InputValuePage extends StatelessWidget {
                                   opacity: max(0.0, (min(1.0, _value) - 0.6)) / 0.4,
                                   child: Text(
                                     s.codeUnits.first.toString(),
-                                    style: Theme.of(context).textTheme.headline5.copyWith(
-                                          height: 1.05,
-                                          fontWeight: FontWeight.w900,
-                                        ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5
+                                        .copyWith(height: 1.05, fontWeight: FontWeight.w900, color: Colors.white60),
                                   ),
                                 ),
                               ),
@@ -126,7 +126,7 @@ class InputValuePage extends StatelessWidget {
                                 style: Theme.of(context)
                                     .textTheme
                                     .headline5
-                                    .copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                                    .copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: 16.0),
                               ),
                             ),
                             Positioned(
@@ -138,7 +138,7 @@ class InputValuePage extends StatelessWidget {
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5
-                                      .copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                                      .copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: 16.0),
                                 ),
                               ),
                             ),
@@ -150,7 +150,10 @@ class InputValuePage extends StatelessWidget {
                                 alignment: Alignment.centerRight,
                                 child: Text(
                                   'Binary',
-                                  style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline5
+                                      .copyWith(fontWeight: FontWeight.w900, fontSize: 16.0),
                                 ),
                               ),
                             ),

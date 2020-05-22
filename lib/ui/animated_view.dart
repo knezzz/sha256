@@ -29,11 +29,21 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
   TextEditingController _controller;
   PageController _pageController;
 
+  int _page = 0;
+
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
     _pageController = PageController(initialPage: 0);
+
+    _pageController.addListener(() {
+      if (mounted) {
+        setState(() {
+          _page = _pageController.page.round();
+        });
+      }
+    });
 
     _controller.addListener(() {
       _sha256 = Sha256(_controller.text);
@@ -43,6 +53,7 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
           PageView.builder(
@@ -89,19 +100,20 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
           ),
         ],
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              _pageController.previousPage(duration: Duration(seconds: 2), curve: Curves.easeInOut);
-            },
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              _pageController.nextPage(duration: Duration(seconds: 2), curve: Curves.easeInOut);
-            },
-          ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (int value) {
+          _pageController.animateToPage(value, duration: Duration(seconds: 3), curve: Curves.easeInOut);
+        },
+        type: BottomNavigationBarType.shifting,
+        selectedItemColor: Theme.of(context).cursorColor,
+        currentIndex: _page,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.input), title: Text('Input')),
+          BottomNavigationBarItem(icon: Icon(Icons.update), title: Text('Parsed value')),
+          BottomNavigationBarItem(icon: Icon(Icons.unfold_less), title: Text('Folded value')),
+          BottomNavigationBarItem(icon: Icon(Icons.space_bar), title: Text('Padding')),
+          BottomNavigationBarItem(icon: Icon(Icons.content_cut), title: Text('Cut in message blocks')),
+          BottomNavigationBarItem(icon: Icon(Icons.message), title: Text('Create message schedule')),
         ],
       ),
     );

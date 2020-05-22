@@ -26,13 +26,34 @@ class AddPaddingPage extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned(
+            bottom: kBottomNavigationBarHeight / 2,
+            width: MediaQuery.of(context).size.width,
+            child: Opacity(
+              opacity: map(min(1.0, _value + 0.6), 0.6, 1.0, 0.0, 1.0),
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.4),
+                child: Center(
+                  child: Text(
+                    'This method of separating the message with a 1 and including the message size (64bit) in the padding is known as Merkle–Damgård strengthening (MD strengthening)',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        .copyWith(fontWeight: FontWeight.w300, height: 1.05, fontSize: 16.0),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
             top: MediaQuery.of(context).size.height * 0.12,
             width: MediaQuery.of(context).size.width,
             child: Opacity(
-              opacity: _value,
+              opacity: map(min(1.0, _value + 0.8), 0.8, 1.0, 0.0, 1.0),
               child: Center(
                 child: Text(
-                  'Adding $k bits of padding. Message has to be 512 bits',
+                  'Padding: ${initialValue.length * 8} + ${_substring() - initialValue.length * 8} = ${_substring()} bits',
+                  textAlign: TextAlign.center,
                   style: Theme.of(context)
                       .textTheme
                       .headline5
@@ -53,8 +74,7 @@ class AddPaddingPage extends StatelessWidget {
                     .headline5
                     .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 24.0),
                 child: Text(
-                  input.substring(
-                      0, initialValue.length * 8 + ((input.length - (initialValue.length * 8)) * _value).toInt()),
+                  input.substring(0, _substring()),
                 ),
               ),
             ),
@@ -62,5 +82,26 @@ class AddPaddingPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  int _substring() {
+    if (_value > 0.9) {
+      return input.length;
+    }
+
+    if (_value > 0.7) {
+      return input.length - 64;
+    }
+
+    if (_value > 0.4) {
+      return initialValue.length * 8 +
+          ((input.length - 64 - (initialValue.length * 8)) * map(_value, 0.4, 0.7, 0.0, 1.0)).toInt();
+    }
+
+    if (_value > 0.1) {
+      return initialValue.length * 8 + 1;
+    }
+
+    return initialValue.length * 8;
   }
 }

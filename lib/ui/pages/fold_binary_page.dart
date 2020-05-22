@@ -55,7 +55,7 @@ class FoldBinaryPage extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5
-                                .copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                                .copyWith(height: 1.05, fontWeight: FontWeight.w900, color: Colors.white60),
                           ),
                         ),
                       ),
@@ -95,8 +95,10 @@ class FoldBinaryPage extends StatelessWidget {
                       left: MediaQuery.of(context).size.width * 0.05,
                       child: Text(
                         'Character',
-                        style:
-                            Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: 16.0),
                       ),
                     ),
                     Positioned(
@@ -104,8 +106,10 @@ class FoldBinaryPage extends StatelessWidget {
                       child: Container(
                         child: Text(
                           'ASCII code',
-                          style:
-                              Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: 16.0),
                         ),
                       ),
                     ),
@@ -116,8 +120,10 @@ class FoldBinaryPage extends StatelessWidget {
                         alignment: Alignment(1 - _value * 2, 0.0),
                         child: Text(
                           'Binary',
-                          style:
-                              Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: 16.0),
                         ),
                       ),
                     ),
