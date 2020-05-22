@@ -34,7 +34,7 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    _controller = TextEditingController(text: 'abc');
     _pageController = PageController(initialPage: 0);
 
     _pageController.addListener(() {
@@ -82,7 +82,11 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
               double _value = _pageController?.page ?? 0.0;
 
               if (_value <= 1.0) {
-                return InputValuePage(_value, _controller);
+                return InputValuePage(
+                  _value,
+                  _controller,
+                  timeToComplete: _sha256.timeToComplete,
+                );
               } else if (_value <= 2.0) {
                 return FoldBinaryPage(_value - 1, _controller.text);
               } else if (_value <= 3.0) {
@@ -102,7 +106,9 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int value) {
-          _pageController.animateToPage(value, duration: Duration(seconds: 3), curve: Curves.easeInOut);
+          int _pages = (_page - value).abs();
+
+          _pageController.animateToPage(value, duration: Duration(seconds: _pages * 3), curve: Curves.easeInOut);
         },
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Theme.of(context).cursorColor,

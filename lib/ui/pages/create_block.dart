@@ -19,7 +19,7 @@ class CreateBlockPage extends StatelessWidget {
     Size _sizeSmall = textSize('00000000',
         Theme.of(context).textTheme.headline5.copyWith(fontSize: 12.0, height: 1.05, fontWeight: FontWeight.w900));
 
-    final int _originalFoldAt = (MediaQuery.of(context).size.width / _sizeBig.width).round();
+    final int _originalFoldAt = ((MediaQuery.of(context).size.width - (_sizeBig.width * 0.4)) / _sizeBig.width).floor();
 
     return Opacity(
       opacity: min(1.0, _value.ceilToDouble()),
@@ -28,8 +28,7 @@ class CreateBlockPage extends StatelessWidget {
           return Positioned(
             top: MediaQuery.of(context).size.height * 0.2,
             left: _sizeBig.width * 0.2,
-            width: map(_value, 0, 1, _sizeBig.width * _originalFoldAt * MediaQuery.of(context).textScaleFactor,
-                _sizeSmall.width * _foldAt * MediaQuery.of(context).textScaleFactor),
+            width: map(_value, 0, 1, _sizeBig.width * _originalFoldAt, _sizeSmall.width * _foldAt),
             child: Container(
               alignment: Alignment.centerRight,
               child: DefaultTextStyle(

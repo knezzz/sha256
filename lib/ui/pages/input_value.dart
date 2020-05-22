@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import '../../utils/utils.dart';
 
 class InputValuePage extends StatelessWidget {
-  InputValuePage(this._value, this._controller, {Key key}) : super(key: key);
+  InputValuePage(this._value, this._controller, {this.timeToComplete, Key key}) : super(key: key);
 
   final TextEditingController _controller;
   final double _value;
   final FocusNode _node = FocusNode();
+  final Duration timeToComplete;
 
   @override
   Widget build(BuildContext context) {
@@ -23,17 +24,44 @@ class InputValuePage extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Positioned(
+          top: MediaQuery.of(context).size.height * 0.12,
+          width: MediaQuery.of(context).size.width,
+          child: Opacity(
+            opacity: map(max(0.0, _value - 0.8), 0.0, 0.2, 1.0, 0.0),
+            child: Center(
+              child: Text(
+                'This site will try to demonstrate how SHA 256 works and what is needed to get to hashed value',
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 24.0),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
           top: MediaQuery.of(context).size.height * 0.5,
           width: MediaQuery.of(context).size.width,
           height: 80.0,
-          child: Opacity(
-            opacity: 1 - min(1.0, _value.ceilToDouble()),
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.04),
+            color: Color.lerp(Theme.of(context).canvasColor, Theme.of(context).scaffoldBackgroundColor,
+                map(min(_value, 0.3), 0.0, 0.3, 0.0, 1.0)),
+            alignment: Alignment.center,
+          ),
+        ),
+        Positioned(
+          top: MediaQuery.of(context).size.height * 0.5,
+          width: MediaQuery.of(context).size.width,
+          height: 80.0,
+          child: Container(
+            alignment: Alignment.center,
+            margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+            child: Opacity(
+              opacity: 1 - min(1.0, _value.ceilToDouble()),
               child: EditableText(
-                cursorWidth: 16.0,
-                paintCursorAboveText: true,
+                cursorWidth: _oneCharSize.width * 1.2,
                 scrollPhysics: NeverScrollableScrollPhysics(),
                 focusNode: _node,
                 cursorOpacityAnimates: true,
@@ -42,6 +70,23 @@ class InputValuePage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
                 cursorColor: Theme.of(context).cursorColor,
                 backgroundCursorColor: Theme.of(context).accentColor,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          top: MediaQuery.of(context).size.height * 0.5 + 80.0,
+          width: MediaQuery.of(context).size.width,
+          child: Opacity(
+            opacity: map(max(0.0, _value - 0.8), 0.0, 0.2, 1.0, 0.0),
+            child: Center(
+              child: Text(
+                'Device you are viewing this hashed this value in: ${timeToComplete.inMilliseconds} ms',
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .headline5
+                    .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 12.0),
               ),
             ),
           ),
@@ -78,7 +123,7 @@ class InputValuePage extends StatelessWidget {
                                   MediaQuery.of(context).size.width * 0.3 * (max(0.0, (min(1.0, _value) - 0.6)) / 0.4),
                               child: Container(
                                 child: Opacity(
-                                  opacity: max(0.0, (min(1.0, _value) - 0.6)) / 0.4,
+                                  opacity: map(max(0.0, _value - 0.6), 0.0, 0.4, 0.0, 1.0),
                                   child: Text(
                                     s.codeUnits.first.toString(),
                                     style: Theme.of(context)
@@ -96,7 +141,7 @@ class InputValuePage extends StatelessWidget {
                               child: Container(
                                 alignment: Alignment.centerRight,
                                 child: Opacity(
-                                  opacity: max(0.0, (min(1.0, _value) - 0.6)) / 0.4,
+                                  opacity: map(max(0.0, _value - 0.6), 0.0, 0.4, 0.0, 1.0),
                                   child: Text(
                                     s.codeUnits.first.toRadixString(2).padLeft(8, '0'),
                                     style: Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900),
@@ -114,7 +159,7 @@ class InputValuePage extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     height: 80.0,
                     child: Opacity(
-                      opacity: max(0.0, (min(1.0, _value) - 0.8)) / 0.2,
+                      opacity: map(max(0.0, _value - 0.8), 0.0, 0.2, 0.0, 1.0),
                       child: Container(
                         child: Stack(
                           alignment: Alignment.centerLeft,
