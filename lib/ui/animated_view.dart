@@ -46,7 +46,9 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
     });
 
     _controller.addListener(() {
-      _sha256 = Sha256(_controller.text);
+      setState(() {
+        _sha256 = Sha256(_controller.text);
+      });
     });
   }
 
@@ -108,7 +110,8 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
         onTap: (int value) {
           int _pages = (_page - value).abs();
 
-          _pageController.animateToPage(value, duration: Duration(seconds: _pages * 3), curve: Curves.easeInOut);
+          _pageController.animateToPage(value,
+              duration: Duration(seconds: (_pages * 0.5).round()), curve: Curves.easeInOut);
         },
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Theme.of(context).cursorColor,

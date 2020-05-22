@@ -24,18 +24,18 @@ class InputValuePage extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.12,
+          top: MediaQuery.of(context).size.height * 0.3,
           width: MediaQuery.of(context).size.width,
           child: Opacity(
-            opacity: map(max(0.0, _value - 0.8), 0.0, 0.2, 1.0, 0.0),
+            opacity: map(min(1.0, _value + 0.8), 0.8, 1.0, 1.0, 0.0),
             child: Center(
               child: Text(
-                'This site will try to demonstrate how SHA 256 works and what is needed to get to hashed value',
+                'This site will try to demonstrate how SHA 256 works and what is needed to get to the hashed value',
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .headline5
-                    .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 24.0),
+                    .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 28.0),
               ),
             ),
           ),
@@ -75,18 +75,18 @@ class InputValuePage extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.5 + 80.0,
+          top: MediaQuery.of(context).size.height * 0.5 + 120.0,
           width: MediaQuery.of(context).size.width,
           child: Opacity(
-            opacity: map(max(0.0, _value - 0.8), 0.0, 0.2, 1.0, 0.0),
+            opacity: map(min(1.0, _value + 0.8), 0.8, 1.0, 1.0, 0.0),
             child: Center(
               child: Text(
-                'Device you are viewing this hashed this value in: ${timeToComplete.inMilliseconds} ms',
+                'Device you are viewing this hashed \"${_controller.text}\" in: ${timeToComplete.inMilliseconds} ms',
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .headline5
-                    .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 12.0),
+                    .copyWith(fontWeight: FontWeight.w300, height: 1.05, fontSize: 14.0),
               ),
             ),
           ),
