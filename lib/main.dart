@@ -14,10 +14,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
+      theme: ThemeData.dark().copyWith(
         cursorColor: Colors.green,
+        accentColor: Colors.green,
         scaffoldBackgroundColor: Colors.black,
-        primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme:
             GoogleFonts.firaCodeTextTheme(ThemeData.dark().textTheme.apply(fontSizeFactor: 1.0, fontSizeDelta: 0.0)),

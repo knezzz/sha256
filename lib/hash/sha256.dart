@@ -6,6 +6,8 @@ import 'package:sha256/hash/model.dart';
 class Sha256 {
   ShaMessage shaModel = ShaMessage.empty();
 
+  Duration timeToComplete;
+
   Sha256(String message) {
     final DateTime _start = DateTime.now();
 
@@ -27,7 +29,7 @@ class Sha256 {
             .map(messageSchedule)
             .fold(<int>[], (List<int> previousValue, List<int> element) => previousValue..addAll(element)));
 
-    print('Done in: ${DateTime.now().difference(_start).inMilliseconds}');
+    timeToComplete = DateTime.now().difference(_start);
 
     getTemporaryWordFirst(0);
     getTemporaryWordSecond(0);

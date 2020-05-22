@@ -29,20 +29,33 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
   TextEditingController _controller;
   PageController _pageController;
 
+  int _page = 0;
+
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    _controller = TextEditingController(text: 'abc');
     _pageController = PageController(initialPage: 0);
 
+    _pageController.addListener(() {
+      if (mounted) {
+        setState(() {
+          _page = _pageController.page.round();
+        });
+      }
+    });
+
     _controller.addListener(() {
-      _sha256 = Sha256(_controller.text);
+      setState(() {
+        _sha256 = Sha256(_controller.text);
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: <Widget>[
           PageView.builder(
@@ -71,7 +84,11 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
               double _value = _pageController?.page ?? 0.0;
 
               if (_value <= 1.0) {
-                return InputValuePage(_value, _controller);
+                return InputValuePage(
+                  _value,
+                  _controller,
+                  timeToComplete: _sha256.timeToComplete,
+                );
               } else if (_value <= 2.0) {
                 return FoldBinaryPage(_value - 1, _controller.text);
               } else if (_value <= 3.0) {
@@ -89,19 +106,23 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
           ),
         ],
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              _pageController.previousPage(duration: Duration(seconds: 2), curve: Curves.easeInOut);
-            },
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              _pageController.nextPage(duration: Duration(seconds: 2), curve: Curves.easeInOut);
-            },
-          ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (int value) {
+          int _pages = (_page - value).abs();
+
+          _pageController.animateToPage(value,
+              duration: Duration(seconds: (_pages * 0.5).round()), curve: Curves.easeInOut);
+        },
+        type: BottomNavigationBarType.shifting,
+        selectedItemColor: Theme.of(context).cursorColor,
+        currentIndex: _page,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.input), title: Text('Input')),
+          BottomNavigationBarItem(icon: Icon(Icons.update), title: Text('Parsed value')),
+          BottomNavigationBarItem(icon: Icon(Icons.unfold_less), title: Text('Folded value')),
+          BottomNavigationBarItem(icon: Icon(Icons.space_bar), title: Text('Padding')),
+          BottomNavigationBarItem(icon: Icon(Icons.content_cut), title: Text('Cut in message blocks')),
+          BottomNavigationBarItem(icon: Icon(Icons.message), title: Text('Create message schedule')),
         ],
       ),
     );

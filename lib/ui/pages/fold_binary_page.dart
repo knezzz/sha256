@@ -16,13 +16,13 @@ class FoldBinaryPage extends StatelessWidget {
     Size _size =
         textSize('00000000', Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900));
 
+    final int _foldAt = ((MediaQuery.of(context).size.width - (_size.width * 0.4)) / _size.width).floor();
+
     return Opacity(
       opacity: min(1.0, _value.ceilToDouble()),
       child: Stack(
         children: <Widget>[
           ...input.split('').mapIndexed((String s, int index) {
-            final int _foldAt = (MediaQuery.of(context).size.width / _size.width).round();
-
             return Positioned(
               top: MediaQuery.of(context).size.height * 0.2 +
                   (index * 60.0) -
@@ -37,7 +37,7 @@ class FoldBinaryPage extends StatelessWidget {
                     Positioned(
                       left: MediaQuery.of(context).size.width * 0.05,
                       child: Opacity(
-                        opacity: 1 - max(0.0, (min(1.0, _value * 3))),
+                        opacity: map(min(0.3, _value), 0.0, 0.3, 1.0, 0.0),
                         child: Text(
                           s,
                           style:
@@ -49,22 +49,20 @@ class FoldBinaryPage extends StatelessWidget {
                       left: MediaQuery.of(context).size.width * 0.3,
                       child: Container(
                         child: Opacity(
-                          opacity: 1 - max(0.0, (min(1.0, _value * 3))),
+                          opacity: map(min(0.3, _value), 0.0, 0.3, 1.0, 0.0),
                           child: Text(
                             s.codeUnits.first.toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .headline5
-                                .copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                                .copyWith(height: 1.05, fontWeight: FontWeight.w900, color: Colors.white60),
                           ),
                         ),
                       ),
                     ),
                     Positioned(
                       left: MediaQuery.of(context).size.width * 0.6 * (1 - _value) +
-                          ((index % _foldAt) *
-                              ((_size.width - 0.75) * MediaQuery.of(context).textScaleFactor) *
-                              _value) +
+                          ((index % _foldAt) * ((_size.width - 0.75)) * _value) +
                           _size.width * 0.2 * _value,
                       width: map(_value, 0, 1, MediaQuery.of(context).size.width * 0.35, _size.width),
                       child: Container(
@@ -85,7 +83,7 @@ class FoldBinaryPage extends StatelessWidget {
             top: MediaQuery.of(context).size.height * 0.2 - 60.0,
             width: MediaQuery.of(context).size.width,
             child: Opacity(
-              opacity: 1 - max(0.0, (min(1.0, _value * 3))),
+              opacity: map(min(0.3, _value), 0.0, 0.3, 1.0, 0.0),
               child: Container(
                 height: 80.0 - (_value * (80.0 - _size.height)),
                 child: Stack(
@@ -95,8 +93,10 @@ class FoldBinaryPage extends StatelessWidget {
                       left: MediaQuery.of(context).size.width * 0.05,
                       child: Text(
                         'Character',
-                        style:
-                            Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: 16.0),
                       ),
                     ),
                     Positioned(
@@ -104,8 +104,10 @@ class FoldBinaryPage extends StatelessWidget {
                       child: Container(
                         child: Text(
                           'ASCII code',
-                          style:
-                              Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: 16.0),
                         ),
                       ),
                     ),
@@ -116,8 +118,10 @@ class FoldBinaryPage extends StatelessWidget {
                         alignment: Alignment(1 - _value * 2, 0.0),
                         child: Text(
                           'Binary',
-                          style:
-                              Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline5
+                              .copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: 16.0),
                         ),
                       ),
                     ),
