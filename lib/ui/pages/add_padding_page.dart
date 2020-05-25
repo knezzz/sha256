@@ -96,7 +96,7 @@ class AddPaddingPage extends StatelessWidget {
       return input.length - 64;
     }
 
-    if (_value > 0.4) {
+    if (_value > 0.2) {
       return initialValue.length * 8 + 1;
     }
 
@@ -116,9 +116,9 @@ class AddPaddingPage extends StatelessWidget {
       return input.length - 64;
     }
 
-    if (_value > 0.4) {
+    if (_value > 0.2) {
       return initialValue.length * 8 +
-          ((input.length - 64 - (initialValue.length * 8)) * map(_value, 0.4, 0.6, 0.0, 1.0)).toInt();
+          ((input.length - 64 - (initialValue.length * 8)) * map(_value, 0.2, 0.6, 0.0, 1.0)).toInt();
     }
 
     if (_value > 0.1) {

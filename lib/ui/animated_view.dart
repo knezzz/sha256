@@ -3,6 +3,7 @@ import 'package:sha256/ui/pages/add_padding_page.dart';
 import 'package:sha256/ui/pages/create_block.dart';
 import 'package:sha256/ui/pages/create_message_for_block.dart';
 import 'package:sha256/ui/pages/fold_binary_page.dart';
+import 'package:sha256/ui/pages/initial_hash_value.dart';
 import 'package:sha256/ui/pages/input_value.dart';
 
 import '../hash/sha256.dart';
@@ -24,7 +25,9 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
     'Create message schedule for each block',
     'Initial hash value'
   ];
-  Sha256 _sha256 = Sha256('abc');
+  String _initialHashValue = 'abc';
+
+  Sha256 _sha256;
 
   TextEditingController _controller;
   PageController _pageController;
@@ -34,7 +37,9 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: 'abc');
+    _sha256 = Sha256(_initialHashValue);
+    _controller = TextEditingController(text: _initialHashValue);
+
     _pageController = PageController(initialPage: 0);
 
     _pageController.addListener(() {
@@ -97,6 +102,9 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
                 return CreateBlockPage(_value - 3, _sha256.shaModel.messageBlocs, _controller.text);
               } else if (_value <= 5.0) {
                 return CreateMessageForBlock(_value - 4, _sha256.shaModel.messageSchedule, _controller.text);
+              } else if (_value <= 6.0) {
+                return InitialHashValue(_value - 5, _sha256.shaModel.messageSchedule, _controller.text,
+                    _sha256.shaModel.hashValue.initialHashValue);
               } else {
                 return Container(
                   child: SizedBox.shrink(),
@@ -110,8 +118,7 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
         onTap: (int value) {
           int _pages = (_page - value).abs();
 
-          _pageController.animateToPage(value,
-              duration: Duration(seconds: (_pages * 0.5).round()), curve: Curves.easeInOut);
+          _pageController.animateToPage(value, duration: Duration(seconds: (_pages * 3).round()), curve: Curves.linear);
         },
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Theme.of(context).cursorColor,
@@ -123,6 +130,7 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.space_bar), title: Text('Padding')),
           BottomNavigationBarItem(icon: Icon(Icons.content_cut), title: Text('Cut in message blocks')),
           BottomNavigationBarItem(icon: Icon(Icons.message), title: Text('Create message schedule')),
+          BottomNavigationBarItem(icon: Icon(Icons.play_arrow), title: Text('Initial hash value')),
         ],
       ),
     );

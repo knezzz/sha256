@@ -16,7 +16,7 @@ class CreateMessageForBlock extends StatelessWidget {
 //    print('Value:${_value.ceilToDouble()}');
 
     Size _size = textSize('00000000',
-        Theme.of(context).textTheme.headline5.copyWith(height: 1.0, fontSize: 16.0, fontWeight: FontWeight.w900));
+        Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontSize: 16.0, fontWeight: FontWeight.w900));
 
     Size _originalSize =
         textSize('00000000', Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900));

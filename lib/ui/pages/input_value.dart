@@ -75,18 +75,20 @@ class InputValuePage extends StatelessWidget {
           ),
         ),
         Positioned(
-          top: MediaQuery.of(context).size.height * 0.5 + 120.0,
+          top: MediaQuery.of(context).size.height * 0.5 + 100.0,
           width: MediaQuery.of(context).size.width,
           child: Opacity(
             opacity: map(min(1.0, _value + 0.8), 0.8, 1.0, 1.0, 0.0),
-            child: Center(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.04),
               child: Text(
-                'Device you are viewing this hashed \"${_controller.text}\" in: ${timeToComplete.inMilliseconds} ms',
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .headline5
-                    .copyWith(fontWeight: FontWeight.w300, height: 1.05, fontSize: 14.0),
+                'Device you are viewing this in has hashed \"${_controller.text}\" in: ${timeToComplete.inMicroseconds / 1000} milliseconds',
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.headline5.copyWith(
+                      fontWeight: FontWeight.w100,
+                      fontSize: 16.0,
+                      color: Theme.of(context).accentColor,
+                    ),
               ),
             ),
           ),
@@ -99,8 +101,9 @@ class InputValuePage extends StatelessWidget {
                 children: <Widget>[
                   ..._controller.text.split('').mapIndexed((String s, int index) {
                     return Positioned(
-                      top: MediaQuery.of(context).size.height * (0.5 - (_value * 0.3)) +
-                          (index * 60.0 * min(1.0, _value)),
+                      top:
+                          MediaQuery.of(context).size.height * (0.5 - map(min(1.0, _value + 0.4), 0.4, 1.0, 0.0, 0.3)) +
+                              (index * 60.0 * map(min(1.0, _value + 0.4), 0.4, 1.0, 0.0, 1.0)),
                       left: index * _oneCharSize.width - (index * _oneCharSize.width * min(1.0, _value)),
                       width: MediaQuery.of(context).size.width,
                       height: 80.0,
@@ -119,8 +122,9 @@ class InputValuePage extends StatelessWidget {
                               ),
                             ),
                             Positioned(
-                              left:
-                                  MediaQuery.of(context).size.width * 0.3 * (max(0.0, (min(1.0, _value) - 0.6)) / 0.4),
+                              left: MediaQuery.of(context).size.width *
+                                  0.3 *
+                                  map(max(0.0, _value - 0.6), 0.0, 0.4, 0.0, 1.0),
                               child: Container(
                                 child: Opacity(
                                   opacity: map(max(0.0, _value - 0.6), 0.0, 0.4, 0.0, 1.0),
@@ -135,8 +139,9 @@ class InputValuePage extends StatelessWidget {
                               ),
                             ),
                             Positioned(
-                              left:
-                                  MediaQuery.of(context).size.width * 0.6 * (max(0.0, (min(1.0, _value) - 0.6)) / 0.4),
+                              left: MediaQuery.of(context).size.width *
+                                  0.6 *
+                                  map(max(0.0, _value - 0.6), 0.0, 0.4, 0.0, 1.0),
                               width: MediaQuery.of(context).size.width * 0.35,
                               child: Container(
                                 alignment: Alignment.centerRight,
