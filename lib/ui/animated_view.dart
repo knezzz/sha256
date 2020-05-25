@@ -118,7 +118,7 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
         onTap: (int value) {
           int _pages = (_page - value).abs();
 
-          _pageController.animateToPage(value, duration: Duration(seconds: (_pages * 3).round()), curve: Curves.linear);
+          _pageController.animateToPage(value, duration: Duration(seconds: (_pages * 5).round()), curve: Curves.linear);
         },
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Theme.of(context).cursorColor,

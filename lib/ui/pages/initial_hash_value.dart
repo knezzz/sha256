@@ -35,7 +35,7 @@ class InitialHashValue extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .headline5
-                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 16.0),
+                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 14.0),
             ),
           ),
           Positioned(
@@ -45,11 +45,14 @@ class InitialHashValue extends StatelessWidget {
               opacity: map(min(0.1, _value), 0.0, 0.1, 0.0, 1.0),
               child: Column(
                 children: [
-                  Text('Initial hash value',
+                  Text('Getting initial hash value',
                       style: Theme.of(context)
                           .textTheme
                           .headline5
                           .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 20.0)),
+                  SizedBox(
+                    height: 24.0,
+                  ),
                   ...initialHashValue.mapIndexed((int value, int index) {
                     String _text;
 

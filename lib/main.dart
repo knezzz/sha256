@@ -5,7 +5,6 @@ import 'package:sha256/ui/animated_view.dart';
 
 void main() {
   debugDefaultTargetPlatformOverride = TargetPlatform.fuchsia;
-
   runApp(MyApp());
 }
 
