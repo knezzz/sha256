@@ -1,0 +1,91 @@
+import 'dart:math';
+
+class Constants {
+  Constants() {
+    primes.forEach((int value) {
+      double _root = pow(value, 1 / 3);
+      double _fractional = _root - _root.floor();
+
+      StringBuffer _sb = StringBuffer();
+
+      List<int>.generate(8, (index) => index).forEach((int i) {
+        double _product = _fractional * 16;
+        int _carry = _product.floor();
+        _fractional = _product - _carry;
+
+        _sb.write(_carry.toRadixString(16));
+      });
+
+      constants.add(int.parse(_sb.toString(), radix: 16));
+    });
+  }
+
+  List<int> primes = <int>[
+    2,
+    3,
+    5,
+    7,
+    11,
+    13,
+    17,
+    19,
+    23,
+    29,
+    31,
+    37,
+    41,
+    43,
+    47,
+    53,
+    59,
+    61,
+    67,
+    71,
+    73,
+    79,
+    83,
+    89,
+    97,
+    101,
+    103,
+    107,
+    109,
+    113,
+    127,
+    131,
+    137,
+    139,
+    149,
+    151,
+    157,
+    163,
+    167,
+    173,
+    179,
+    181,
+    191,
+    193,
+    197,
+    199,
+    211,
+    223,
+    227,
+    229,
+    233,
+    239,
+    241,
+    251,
+    257,
+    263,
+    269,
+    271,
+    277,
+    281,
+    283,
+    293,
+    307,
+    311
+  ];
+
+  List<int> constants = <int>[];
+}

@@ -1,10 +1,12 @@
 import 'dart:math';
 
+import 'package:sha256/hash/constants.dart';
 import 'package:sha256/hash/functions.dart';
 import 'package:sha256/hash/model.dart';
 
 class Sha256 {
   ShaMessage shaModel = ShaMessage.empty();
+  Constants constants = Constants();
 
   Duration timeToComplete;
 
@@ -29,10 +31,17 @@ class Sha256 {
             .map(messageSchedule)
             .fold(<int>[], (List<int> previousValue, List<int> element) => previousValue..addAll(element)));
 
-    timeToComplete = DateTime.now().difference(_start);
+    List<int> _temp1 = <int>[];
+    List<int> _temp2 = <int>[];
 
-    getTemporaryWordFirst(0);
-    getTemporaryWordSecond(0);
+    List<int>.generate(64, (int i) => i).forEach((int i) {
+      _temp1.add(getTemporaryWordFirst(i));
+      _temp2.add(getTemporaryWordSecond(i));
+    });
+
+    shaModel = shaModel.copyWith(tempWord1: _temp1, tempWord2: _temp2);
+
+    timeToComplete = DateTime.now().difference(_start);
   }
 
   String foldBinaryArray() {
@@ -98,28 +107,24 @@ class Sha256 {
     return _schedule;
   }
 
-  void getTemporaryWordFirst(int value) {
+  int getTemporaryWordFirst(int value) {
     int _usigmaOne = usigma1(shaModel.hashValue.initialHashValue[4]);
     int _choose = choice(shaModel.hashValue.initialHashValue[4], shaModel.hashValue.initialHashValue[5],
         shaModel.hashValue.initialHashValue[6]);
 
-    print('T1');
-    print(((_usigmaOne +
-                _choose +
-                shaModel.hashValue.initialHashValue[7] +
-                shaModel.messageSchedule[value] +
-                int.parse('01000010100010100010111110011000', radix: 2)) %
-            (pow(2, 32).round()))
-        .toRadixString(2)
-        .padLeft(32, '0'));
+    return (_usigmaOne +
+            _choose +
+            shaModel.hashValue.initialHashValue[7] +
+            shaModel.messageSchedule[value] +
+            constants.constants[value]) %
+        (pow(2, 32).round());
   }
 
-  void getTemporaryWordSecond(int value) {
+  int getTemporaryWordSecond(int value) {
     int _usigmaZero = usigma0(shaModel.hashValue.initialHashValue[0]);
     int _majority = majority(shaModel.hashValue.initialHashValue[0], shaModel.hashValue.initialHashValue[1],
         shaModel.hashValue.initialHashValue[2]);
 
-    print('T2');
-    print(((_usigmaZero + _majority) % (pow(2, 32).round())).toRadixString(2).padLeft(32, '0'));
+    return (_usigmaZero + _majority) % (pow(2, 32).round());
   }
 }

@@ -39,49 +39,51 @@ class InitialHashValue extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.2 - MediaQuery.of(context).size.height * 0.1,
-            right: (MediaQuery.of(context).size.width / 2) - (_mySize.width * 2),
-            child: Opacity(
-              opacity: map(min(0.1, _value), 0.0, 0.1, 0.0, 1.0),
-              child: Column(
-                children: [
-                  Text('Getting initial hash value',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 20.0)),
-                  SizedBox(
-                    height: 24.0,
-                  ),
-                  ...initialHashValue.mapIndexed((int value, int index) {
-                    String _text;
+            top: MediaQuery.of(context).size.height * 0.1,
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Opacity(
+                opacity: map(min(0.1, _value), 0.0, 0.1, 0.0, 1.0),
+                child: Column(
+                  children: [
+                    Text('Getting initial hash value',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 20.0)),
+                    SizedBox(
+                      height: 24.0,
+                    ),
+                    ...initialHashValue.mapIndexed((int value, int index) {
+                      String _text;
 
-                    if (_value <= 0.15) {
-                      _text = '√' + [2, 3, 5, 7, 11, 13, 17, 19][index].toString();
-                    } else if (_value <= 0.3) {
-                      _text = sqrt([2, 3, 5, 7, 11, 13, 17, 19][index]).toStringAsPrecision(10);
-                    } else if (_value <= 0.45) {
-                      _text = (sqrt([2, 3, 5, 7, 11, 13, 17, 19][index]) % 1).toStringAsPrecision(9);
-                    } else if (_value <= 0.6) {
-                      _text = (sqrt([2, 3, 5, 7, 11, 13, 17, 19][index]) % 1).toStringAsPrecision(9) + ' * 2 ^ 32';
-                    } else if (_value <= 0.75) {
-                      _text = value.toString();
-                    } else {
-                      _text = value.toRadixString(2).padRight(32, '0');
-                    }
+                      if (_value <= 0.15) {
+                        _text = '√' + [2, 3, 5, 7, 11, 13, 17, 19][index].toString();
+                      } else if (_value <= 0.3) {
+                        _text = sqrt([2, 3, 5, 7, 11, 13, 17, 19][index]).toStringAsPrecision(10);
+                      } else if (_value <= 0.45) {
+                        _text = (sqrt([2, 3, 5, 7, 11, 13, 17, 19][index]) % 1).toStringAsPrecision(9);
+                      } else if (_value <= 0.6) {
+                        _text = (sqrt([2, 3, 5, 7, 11, 13, 17, 19][index]) % 1).toStringAsPrecision(9) + ' * 2 ^ 32';
+                      } else if (_value <= 0.75) {
+                        _text = value.toString();
+                      } else {
+                        _text = value.toRadixString(2).padRight(32, '0');
+                      }
 
-                    _text = _text.padRight(32);
+                      _text = _text.padRight(32);
 
-                    return Text(
-                      '${['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'][index]} = $_text',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 20.0),
-                      textAlign: TextAlign.start,
-                    );
-                  }).toList()
-                ],
+                      return Text(
+                        '${['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'][index]} = $_text',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 20.0),
+                        textAlign: TextAlign.start,
+                      );
+                    }).toList()
+                  ],
+                ),
               ),
             ),
           ),
