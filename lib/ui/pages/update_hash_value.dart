@@ -5,13 +5,11 @@ import 'package:sha256/hash/sha256.dart';
 import 'package:sha256/utils/utils.dart';
 
 class UpdateHashValue extends StatelessWidget {
-  UpdateHashValue(this._value, this.input, this.initialValue, this.initialHashValue, this.shaModel, {Key key})
-      : super(key: key);
+  UpdateHashValue(this._value, this.input, this.initialHashValue, this.shaModel, {Key key}) : super(key: key);
 
   final double _value;
   final List<int> input;
   final List<int> initialHashValue;
-  final String initialValue;
 
   final Sha256 shaModel;
 
@@ -32,7 +30,7 @@ class UpdateHashValue extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.2 - MediaQuery.of(context).size.height * 0.1,
+            top: MediaQuery.of(context).size.height * 0.1,
             left: _originalSize.width * 0.2,
             child: Text(
               _messageSchedule,
@@ -43,10 +41,10 @@ class UpdateHashValue extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.1,
+            top: MediaQuery.of(context).size.height * 0.3,
             width: MediaQuery.of(context).size.width,
             child: Opacity(
-              opacity: map(min(0.1, _value), 0.0, 0.1, 0.0, 1.0),
+              opacity: map(max(0.0, min(0.2, _value - 0.2)), 0.0, 0.2, 0.0, 1.0),
               child: Center(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,12 +58,7 @@ class UpdateHashValue extends StatelessWidget {
                       height: 24.0,
                     ),
                     Text(
-                      'T1 = Σ1(e) + Ch(e, f, g) + h + Kt + Wt'.substring(
-                          0,
-                          4 +
-                              (('Σ1(e) + Ch(e, f, g) + h + Kt + Wt'.length + 1) *
-                                      map(max(0.2, _value), 0.2, 1.0, 0.0, 1.0))
-                                  .round()),
+                      't = ',
                       style: Theme.of(context)
                           .textTheme
                           .headline5
@@ -76,11 +69,40 @@ class UpdateHashValue extends StatelessWidget {
                       height: 12.0,
                     ),
                     Text(
-                      'T2 = Σ0(a) + Maj(a, b, c)'.substring(
-                          0,
-                          4 +
-                              (('Σ0(a) + Maj(a, b, c)'.length + 1) * map(max(0.3, _value), 0.3, 1.0, 0.0, 1.0))
-                                  .round()),
+                      'T1 = Σ1(e) + Ch(e, f, g) + h + K[t] + W[t]',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 20.0),
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    Text(
+                      'T2 = Σ0(a) + Maj(a, b, c)',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 20.0),
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(
+                      height: 36.0,
+                    ),
+                    Text(
+                      'T1 = ',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 20.0),
+                      textAlign: TextAlign.start,
+                    ),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    Text(
+                      'T2 = ',
                       style: Theme.of(context)
                           .textTheme
                           .headline5
@@ -93,7 +115,7 @@ class UpdateHashValue extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.1 + _value * MediaQuery.of(context).size.height * 0.2,
+            top: MediaQuery.of(context).size.height * 0.1,
             width: MediaQuery.of(context).size.width,
             child: Center(
               child: Column(

@@ -34,9 +34,19 @@ class Sha256 {
     List<int> _temp1 = <int>[];
     List<int> _temp2 = <int>[];
 
+    shaModel.hashValue.calculatedHashValue = List<int>.from(shaModel.hashValue.initialHashValue);
+
     List<int>.generate(64, (int i) => i).forEach((int i) {
-      _temp1.add(getTemporaryWordFirst(i));
-      _temp2.add(getTemporaryWordSecond(i));
+      final int _firstTemp = getTemporaryWordFirst(i);
+      final int _secondTemp = getTemporaryWordSecond(i);
+
+      _temp1.add(_firstTemp);
+      _temp2.add(_secondTemp);
+
+      shaModel.hashValue.calculatedHashValue.insert(0, 0);
+      shaModel.hashValue.calculatedHashValue[0] = (_firstTemp + _secondTemp) % pow(2, 32);
+      shaModel.hashValue.calculatedHashValue[4] = (shaModel.hashValue.calculatedHashValue[4] + _firstTemp) % pow(2, 32);
+      shaModel.hashValue.calculatedHashValue.removeLast();
     });
 
     shaModel = shaModel.copyWith(tempWord1: _temp1, tempWord2: _temp2);
@@ -108,22 +118,22 @@ class Sha256 {
   }
 
   int getTemporaryWordFirst(int value) {
-    int _usigmaOne = usigma1(shaModel.hashValue.initialHashValue[4]);
-    int _choose = choice(shaModel.hashValue.initialHashValue[4], shaModel.hashValue.initialHashValue[5],
-        shaModel.hashValue.initialHashValue[6]);
+    int _usigmaOne = usigma1(shaModel.hashValue.calculatedHashValue[4]);
+    int _choose = choice(shaModel.hashValue.calculatedHashValue[4], shaModel.hashValue.calculatedHashValue[5],
+        shaModel.hashValue.calculatedHashValue[6]);
 
     return (_usigmaOne +
             _choose +
-            shaModel.hashValue.initialHashValue[7] +
+            shaModel.hashValue.calculatedHashValue[7] +
             shaModel.messageSchedule[value] +
             constants.constants[value]) %
         (pow(2, 32).round());
   }
 
   int getTemporaryWordSecond(int value) {
-    int _usigmaZero = usigma0(shaModel.hashValue.initialHashValue[0]);
-    int _majority = majority(shaModel.hashValue.initialHashValue[0], shaModel.hashValue.initialHashValue[1],
-        shaModel.hashValue.initialHashValue[2]);
+    int _usigmaZero = usigma0(shaModel.hashValue.calculatedHashValue[0]);
+    int _majority = majority(shaModel.hashValue.calculatedHashValue[0], shaModel.hashValue.calculatedHashValue[1],
+        shaModel.hashValue.calculatedHashValue[2]);
 
     return (_usigmaZero + _majority) % (pow(2, 32).round());
   }

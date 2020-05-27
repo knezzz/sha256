@@ -68,7 +68,7 @@ class InitialHashValue extends StatelessWidget {
                       } else if (_value <= 0.75) {
                         _text = value.toString();
                       } else {
-                        _text = value.toRadixString(2).padRight(32, '0');
+                        _text = value.toRadixString(2).padLeft(32, '0');
                       }
 
                       _text = _text.padRight(32);

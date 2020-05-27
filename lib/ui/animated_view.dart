@@ -3,6 +3,8 @@ import 'package:sha256/ui/pages/add_padding_page.dart';
 import 'package:sha256/ui/pages/calculate_new_hash.dart';
 import 'package:sha256/ui/pages/create_block.dart';
 import 'package:sha256/ui/pages/create_message_for_block.dart';
+import 'package:sha256/ui/pages/end_hash_value.dart';
+import 'package:sha256/ui/pages/final_hash_value.dart';
 import 'package:sha256/ui/pages/fold_binary_page.dart';
 import 'package:sha256/ui/pages/initial_hash_value.dart';
 import 'package:sha256/ui/pages/input_value.dart';
@@ -28,6 +30,8 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
     'Initial hash value',
     'Update hash value',
     'Calculate hash value',
+    'Add hash value',
+    'End hash value',
   ];
   String _initialHashValue = 'abc';
 
@@ -110,11 +114,17 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
                 return InitialHashValue(_value - 5, _sha256.shaModel.messageSchedule, _controller.text,
                     _sha256.shaModel.hashValue.initialHashValue);
               } else if (_value <= 7.0) {
-                return UpdateHashValue(_value - 6, _sha256.shaModel.messageSchedule, _controller.text,
-                    _sha256.shaModel.hashValue.initialHashValue, _sha256);
+                return UpdateHashValue(
+                    _value - 6, _sha256.shaModel.messageSchedule, _sha256.shaModel.hashValue.initialHashValue, _sha256);
               } else if (_value <= 8.0) {
-                return CalculateNewHash(_value - 7, _sha256.shaModel.messageSchedule, _controller.text,
-                    _sha256.shaModel.hashValue.initialHashValue, _sha256);
+                return CalculateNewHash(
+                    _value - 7, _sha256.shaModel.messageSchedule, _sha256.shaModel.hashValue.initialHashValue, _sha256);
+              } else if (_value <= 9.0) {
+                return FinalHashValue(
+                    _value - 8, _sha256.shaModel.messageSchedule, _sha256.shaModel.hashValue.initialHashValue, _sha256);
+              } else if (_value <= 10.0) {
+                return EndHashValue(
+                    _value - 9, _sha256.shaModel.messageSchedule, _sha256.shaModel.hashValue.initialHashValue, _sha256);
               } else {
                 return Container(
                   child: SizedBox.shrink(),
@@ -128,7 +138,8 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
         onTap: (int value) {
           int _pages = (_page - value).abs();
 
-          _pageController.animateToPage(value, duration: Duration(milliseconds: _pages * 1000), curve: Curves.linear);
+          _pageController.animateToPage(value,
+              duration: Duration(milliseconds: (_pages * 1000).ceil()), curve: Curves.linear);
         },
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Theme.of(context).cursorColor,
@@ -143,6 +154,8 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.play_arrow), title: Text('Initial hash value')),
           BottomNavigationBarItem(icon: Icon(Icons.update), title: Text('Update hash value')),
           BottomNavigationBarItem(icon: Icon(Icons.laptop_chromebook), title: Text('Calculate hash value')),
+          BottomNavigationBarItem(icon: Icon(Icons.add), title: Text('Add hash value')),
+          BottomNavigationBarItem(icon: Icon(Icons.done), title: Text('End hash value')),
         ],
       ),
     );

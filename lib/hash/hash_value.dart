@@ -7,4 +7,6 @@ class HashValue {
 
   String temporaryWordFirst;
   String temporaryWordSecond;
+
+  List<int> calculatedHashValue;
 }
