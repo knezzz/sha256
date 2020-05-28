@@ -82,12 +82,31 @@ class InputValuePage extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.04),
               child: Text(
-                'Device you are viewing this in has hashed \"${_controller.text}\" in: ${timeToComplete.inMicroseconds / 1000} milliseconds',
+                'Device you are viewing this in has hashed \"${_controller.text}\" in: ${(timeToComplete.inMicroseconds / 1000 == 0) ? '...' : timeToComplete.inMicroseconds / 1000} milliseconds*',
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.headline5.copyWith(
                       fontWeight: FontWeight.w100,
                       fontSize: 16.0,
                       color: Theme.of(context).accentColor,
+                    ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 0.0,
+          width: MediaQuery.of(context).size.width,
+          child: Opacity(
+            opacity: map(min(1.0, _value + 0.8), 0.8, 1.0, 1.0, 0.0),
+            child: Container(
+              margin: EdgeInsets.all(8.0),
+              child: Text(
+                '* - in very inefficiant way',
+                textAlign: TextAlign.right,
+                style: Theme.of(context).textTheme.headline5.copyWith(
+                      fontWeight: FontWeight.w100,
+                      fontSize: 16.0,
+                      color: Theme.of(context).disabledColor,
                     ),
               ),
             ),

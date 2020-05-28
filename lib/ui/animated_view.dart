@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:sha256/ui/pages/add_padding_page.dart';
 import 'package:sha256/ui/pages/calculate_new_hash.dart';
@@ -9,6 +11,7 @@ import 'package:sha256/ui/pages/fold_binary_page.dart';
 import 'package:sha256/ui/pages/initial_hash_value.dart';
 import 'package:sha256/ui/pages/input_value.dart';
 import 'package:sha256/ui/pages/update_hash_value.dart';
+import 'package:sha256/utils/utils.dart';
 
 import '../hash/sha256.dart';
 
@@ -35,20 +38,23 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
   ];
   String _initialHashValue = 'abc';
 
-  Sha256 _sha256;
+  Sha256 _sha256 = Sha256.init();
 
   TextEditingController _controller;
   PageController _pageController;
+
+  List<int> _animationSpeeds = <int>[0, 2750, 7500, 15000, 30000, 60000];
+
+  int _currentAnimationSpeed = 0;
 
   int _page = 0;
 
   @override
   void initState() {
     super.initState();
-    _sha256 = Sha256(_initialHashValue);
     _controller = TextEditingController(text: _initialHashValue);
 
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController(initialPage: 0, viewportFraction: 0.6);
 
     _pageController.addListener(() {
       if (mounted) {
@@ -59,8 +65,13 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
     });
 
     _controller.addListener(() {
+      if (_sha256.shaModel.input == _controller.text) {
+        return;
+      }
+
       setState(() {
         _sha256 = Sha256(_controller.text);
+        _animationSpeeds[0] = _sha256.timeToComplete.inMicroseconds;
       });
     });
   }
@@ -97,10 +108,104 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
               double _value = _pageController?.page ?? 0.0;
 
               if (_value <= 1.0) {
-                return InputValuePage(
-                  _value,
-                  _controller,
-                  timeToComplete: _sha256.timeToComplete,
+                return Stack(
+                  children: [
+                    Positioned(
+                      bottom: MediaQuery.of(context).size.height * 0.2,
+                      width: MediaQuery.of(context).size.width,
+                      child: Opacity(
+                        opacity: map(min(1.0, _value + 0.8), 0.8, 1.0, 1.0, 0.0),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.04),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Divider(),
+                              Text(
+                                'Animation speed:',
+                                textAlign: TextAlign.left,
+                                style: Theme.of(context).textTheme.headline5.copyWith(
+                                      fontWeight: FontWeight.w100,
+                                      fontSize: 26.0,
+                                      color: Theme.of(context).accentColor,
+                                    ),
+                              ),
+                              SizedBox(
+                                height: 8.0,
+                              ),
+                              Row(
+                                children: _animationSpeeds.mapIndexed((int i, int index) {
+                                  if (index == _currentAnimationSpeed) {
+                                    return RaisedButton(
+                                      color: Theme.of(context).accentColor,
+                                      shape: RoundedRectangleBorder(),
+                                      onPressed: () {},
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          '$i ms',
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context).textTheme.button.copyWith(
+                                                color: Theme.of(context).scaffoldBackgroundColor,
+                                              ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+
+                                  return OutlineButton(
+                                    borderSide: BorderSide(width: 1.0, color: Theme.of(context).accentColor),
+                                    shape: RoundedRectangleBorder(),
+                                    onPressed: () {
+                                      setState(() {
+                                        _currentAnimationSpeed = index;
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text(
+                                        '$i ms',
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context).textTheme.button.copyWith(
+                                              color: Theme.of(context).accentColor,
+                                            ),
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: MediaQuery.of(context).size.height * 0.125,
+                      child: Opacity(
+                        opacity: map(min(1.0, _value + 0.8), 0.8, 1.0, 1.0, 0.0),
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.04),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              '   ↑\n\n1000x slower than real-time',
+                              textAlign: TextAlign.left,
+                              style: Theme.of(context).textTheme.headline5.copyWith(
+                                    fontWeight: FontWeight.w100,
+                                    fontSize: 16.0,
+                                    color: Theme.of(context).disabledColor,
+                                  ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    InputValuePage(
+                      _value,
+                      _controller,
+                      timeToComplete: _sha256?.timeToComplete ?? Duration.zero,
+                    ),
+                  ],
                 );
               } else if (_value <= 2.0) {
                 return FoldBinaryPage(_value - 1, _controller.text);
@@ -135,12 +240,7 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        onTap: (int value) {
-          int _pages = (_page - value).abs();
-
-          _pageController.animateToPage(value,
-              duration: Duration(milliseconds: (_pages * 1000).ceil()), curve: Curves.linear);
-        },
+        onTap: _animateToPage,
         type: BottomNavigationBarType.shifting,
         selectedItemColor: Theme.of(context).cursorColor,
         currentIndex: _page,
@@ -159,5 +259,14 @@ class _AnimatedScreenState extends State<AnimatedScreen> {
         ],
       ),
     );
+  }
+
+  void _animateToPage(int page) async {
+    int _pages = (_page - page).abs();
+
+    double _speed = (_animationSpeeds[_currentAnimationSpeed] / _steps.length).ceilToDouble();
+
+    _pageController.animateToPage(page,
+        duration: Duration(milliseconds: (_pages * _speed).ceil()), curve: Curves.linear);
   }
 }

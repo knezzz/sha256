@@ -24,7 +24,7 @@ class FinalHashValue extends StatelessWidget {
         Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: 20.0));
 
     Size _blockSize = textSize(''.padRight(32, '0'),
-        Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 14.0));
+        Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 18.0));
 
     String _messageSchedule = input
         .fold(StringBuffer(), (StringBuffer sb, int value) => sb..writeln(value.toRadixString(2).padLeft(32, '0')))
@@ -40,13 +40,13 @@ class FinalHashValue extends StatelessWidget {
             String _text;
             _text = shaModel.shaModel.hashValue.calculatedHashValue[index].toRadixString(2).padLeft(32, '0');
 
-            if (_value < 0.2) {
+            if (_value < 0.1) {
               _text = _text;
-            } else if (_value < 0.3) {
+            } else if (_value < 0.2) {
               _text = _text + ' + ';
-            } else if (_value < 0.5) {
+            } else if (_value < 0.4) {
               _text = _text + ' + ' + value.toRadixString(2).padLeft(32, '0');
-            } else if (_value < 0.6) {
+            } else if (_value < 0.5) {
               _text = _text + ' + ' + value.toRadixString(2).padLeft(32, '0') + ' = ';
             } else if (_value < 0.8) {
               _text = ((value + shaModel.shaModel.hashValue.calculatedHashValue[index]) % pow(2, 32))
@@ -71,7 +71,11 @@ class FinalHashValue extends StatelessWidget {
                               .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 20.0))
                       .height +
                   index * _mainSize.height,
-              left: MediaQuery.of(context).size.width / 2 - (_mainSize.width * 2) - (_prefixSize.width / 2),
+              left: MediaQuery.of(context).size.width / 2 -
+                  (_mainSize.width * 2) -
+                  (_prefixSize.width / 2) -
+                  ((MediaQuery.of(context).size.width / 2 - (_mainSize.width * 2) - (_prefixSize.width / 2)) *
+                      min(map(_value, 1.0, 0.0, 1.0, 0.0), map(_value, 1.0, 0.0, 0.0, 0.7))),
               child: Text(
                 '${['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'][index]} = $_text',
                 style: Theme.of(context)
@@ -102,29 +106,29 @@ class FinalHashValue extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.1,
+                  top: -MediaQuery.of(context).size.height * 0.4,
                   left: _originalSize.width * 0.2,
                   child: Text(
                     _messageSchedule,
                     style: Theme.of(context)
                         .textTheme
                         .headline5
-                        .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 14.0),
+                        .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 18.0),
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.1 + (63 * _blockSize.height),
+                  top: -MediaQuery.of(context).size.height * 0.4 + (63 * _blockSize.height),
                   left: _originalSize.width * 0.2 + _blockSize.width,
                   child: Text(
                     '<-',
                     style: Theme.of(context)
                         .textTheme
                         .headline5
-                        .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 14.0),
+                        .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 18.0),
                   ),
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height * 0.3,
+                  top: MediaQuery.of(context).size.height * 0.5,
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                     child: Column(

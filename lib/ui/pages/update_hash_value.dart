@@ -37,11 +37,11 @@ class UpdateHashValue extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .headline5
-                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 14.0),
+                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 18.0),
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.3,
+            top: MediaQuery.of(context).size.height * 0.5,
             width: MediaQuery.of(context).size.width,
             child: Opacity(
               opacity: map(max(0.0, min(0.2, _value - 0.2)), 0.0, 0.2, 0.0, 1.0),

@@ -28,14 +28,14 @@ class InitialHashValue extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.2 - MediaQuery.of(context).size.height * 0.1,
+            top: -MediaQuery.of(context).size.height * 0.4 + (MediaQuery.of(context).size.height * 0.5 * _value),
             left: _originalSize.width * 0.2,
             child: Text(
               _messageSchedule,
               style: Theme.of(context)
                   .textTheme
                   .headline5
-                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 14.0),
+                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 18.0),
             ),
           ),
           Positioned(

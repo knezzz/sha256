@@ -35,7 +35,7 @@ class CalculateNewHash extends StatelessWidget {
     Size _originalSize =
         textSize('00000000', Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900));
     Size _blockSize = textSize(''.padRight(32, '0'),
-        Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 14.0));
+        Theme.of(context).textTheme.headline5.copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 18.0));
 
     String _messageSchedule = input
         .fold(StringBuffer(), (StringBuffer sb, int value) => sb..writeln(value.toRadixString(2).padLeft(32, '0')))
@@ -48,29 +48,31 @@ class CalculateNewHash extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.1,
+            top: MediaQuery.of(context).size.height * 0.1 - (MediaQuery.of(context).size.height * 0.5 * _value),
             left: _originalSize.width * 0.2,
             child: Text(
               _messageSchedule,
               style: Theme.of(context)
                   .textTheme
                   .headline5
-                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 14.0),
+                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 18.0),
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.1 + ((_value * 63) * _blockSize.height),
+            top: MediaQuery.of(context).size.height * 0.1 +
+                ((_value * 63) * _blockSize.height) -
+                (MediaQuery.of(context).size.height * 0.5 * _value),
             left: _originalSize.width * 0.2 + _blockSize.width,
             child: Text(
-              '<-',
+              '<- t',
               style: Theme.of(context)
                   .textTheme
                   .headline5
-                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 14.0),
+                  .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: 18.0),
             ),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.3,
+            top: MediaQuery.of(context).size.height * 0.5,
             width: MediaQuery.of(context).size.width,
             child: Center(
               child: Column(

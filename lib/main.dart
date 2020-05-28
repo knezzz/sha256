@@ -16,6 +16,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         cursorColor: Colors.green,
         accentColor: Colors.green,
+        navigationRailTheme: NavigationRailThemeData(
+            selectedIconTheme: IconThemeData(
+              color: Colors.green,
+            ),
+            selectedLabelTextStyle:
+                GoogleFonts.firaCodeTextTheme(ThemeData.dark().textTheme.apply(fontSizeFactor: 1.0, fontSizeDelta: 0.0))
+                    .subtitle1
+                    .copyWith(color: Colors.green)),
         scaffoldBackgroundColor: Colors.black,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme:

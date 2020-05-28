@@ -10,6 +10,12 @@ class Sha256 {
 
   Duration timeToComplete;
 
+  factory Sha256.init() {
+    final Sha256 _sha = Sha256('');
+    _sha.timeToComplete = Duration.zero;
+    return _sha;
+  }
+
   Sha256(String message) {
     final DateTime _start = DateTime.now();
 

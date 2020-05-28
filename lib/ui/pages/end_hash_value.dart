@@ -15,7 +15,7 @@ class EndHashValue extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double _fontSize = 20.0 + (_value * 12.0);
+    double _fontSize = 20.0 + (_value * 8.0);
 
     Size _originalSize = textSize('00000000',
         Theme.of(context).textTheme.headline5.copyWith(height: 1.05, fontWeight: FontWeight.w900, fontSize: _fontSize));
@@ -79,7 +79,15 @@ class EndHashValue extends StatelessWidget {
           }).toList(),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.2,
-            left: MediaQuery.of(context).size.width / 2 - (_originalSize.width * 2) - (_prefixSize.width / 2),
+            left: MediaQuery.of(context).size.width / 2 -
+                (textSize(
+                            '\"${shaModel.shaModel.input}\" hashes to:',
+                            Theme.of(context)
+                                .textTheme
+                                .headline5
+                                .copyWith(fontWeight: FontWeight.w900, height: 1.05, fontSize: _fontSize))
+                        .width /
+                    2),
             child: Opacity(
               opacity: map(min(0.4, _value), 0.0, 0.4, 0.0, 1.0),
               child: Text(
